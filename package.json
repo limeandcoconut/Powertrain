@@ -6,6 +6,10 @@
   "scripts": {
     "test": " ./node_modules/.bin/mocha --compilers js:babel-core/register --reporter=nyan"
   },
+  "repository": {
+    "type": "git",
+    "url": "github.com/limeandcoconut/Powertrain"
+  },
   "keywords": [
     "engine",
     "raf",
