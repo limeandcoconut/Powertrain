@@ -2,9 +2,11 @@
   "name": "powertrain",
   "version": "1.0.1",
   "description": "A lightweight es6 game loop written to prioritize updates and fill in with extra renders.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": " ./node_modules/.bin/mocha --compilers js:babel-core/register --reporter=nyan"
+    "test": " ./node_modules/.bin/mocha --compilers js:babel-core/register --reporter=nyan",
+    "build": "babel source --out-dir dist",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -25,9 +27,10 @@
     "raf": "^3.3.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
     "babel-preset-es2015": "^6.18.0",
-    "mocha": "^3.2.0",
-    "chai": "^3.5.0"
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
   }
 }
