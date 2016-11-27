@@ -3,36 +3,38 @@ import raf from 'raf';
 
 export default class Powertrain {
     constructor(core) {
-        if (typeof core !== 'object') {
-            throw new TypeError('Configuration object required');
-        }
-
-        let expected = {
-            playSpeed: 'number',
-            fps: 'number',
-            update: 'function',
-            render: 'function',
-        };
-
-        this.core = core;
-
-        Object.keys(core).forEach((key) => {
-            if (expected.hasOwnProperty(key) && typeof core[key] !== expected[key]) {
-                throw new TypeError(`"${key}" must be of type "${expected[key]}""`);
+        if (typeof core !== 'undefined') {
+            if (typeof core !== 'object') {
+                throw new TypeError('Configuration object required');
             }
-        });
 
-        if (typeof core.fps !== 'undefined' && core.fps <= 0) {
-            throw new RangeError('"fps" option must be greater than 0');
+            let expected = {
+                playSpeed: 'number',
+                fps: 'number',
+                update: 'function',
+                render: 'function',
+            };
+
+            Object.keys(core).forEach((key) => {
+                if (expected.hasOwnProperty(key) && typeof core[key] !== expected[key]) {
+                    throw new TypeError(`"${key}" must be of type "${expected[key]}""`);
+                }
+            });
+
+            if (typeof core.fps !== 'undefined' && core.fps <= 0) {
+                throw new RangeError('"fps" option must be greater than 0');
+            }
+        } else {
+            core = {};
         }
 
         this.currentTimestamp = 0;
         this.dt = 0;
         this.lastTimestamp = timestamp();
-        this.playSpeed = this.core.playSpeed || 1;
-        this.frameStep = this.playSpeed / (this.core.fps || 60);
-        this.update = this.core.update || (() => {});
-        this.render = this.core.render || (() => {});
+        this.playSpeed = core.playSpeed || 1;
+        this.frameStep = this.playSpeed / (core.fps || 60);
+        this.update = core.update || (() => {});
+        this.render = core.render || (() => {});
 
         // TODO test fps
         this.frameCount = 0;
@@ -69,11 +71,11 @@ export default class Powertrain {
         this.dt += Math.min(1, (this.currentTimestamp - this.lastTimestamp) / 1000);
         while (this.dt > this.frameStep) {
             this.dt -= this.frameStep;
-            this.core.update(this.frameStep);
+            this.update(this.frameStep);
             this.frameCount++;
         }
 
-        this.core.render(this.dt / this.playspeed, this.fps);
+        this.render(this.dt / this.playspeed, this.fps);
         this.lastTimestamp = this.currentTimestamp;
 
         raf(() => {

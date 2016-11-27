@@ -1,9 +1,11 @@
 {
-    "only": [
-        "source/*.js"
+    "ignore": [
+        "dist",
     ],
 
     "presets": [
         "es2015"
-    ]
+    ],
+
+
 }

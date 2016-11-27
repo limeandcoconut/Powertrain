@@ -7,11 +7,13 @@ describe('Powertrain class', function() {
 
     describe('Creating Class', function() {
 
-        it('should throw if constructed with no core', function() {
+        it('should construct properly without config', function() {
             expect(() => {
                 /* eslint-disable no-new */
                 new Powertrain();
-            }).to.throw(TypeError);
+            }).to.not.throw(TypeError);
+            let instanceTest = new Powertrain();
+            expect(typeof instanceTest).to.equal('object');
         });
 
         it('should throw if constructed with incorrect core values', function() {
