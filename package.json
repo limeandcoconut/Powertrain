@@ -1,0 +1,29 @@
+{
+  "name": "powertrain",
+  "version": "1.0.0",
+  "description": "A lightweight es6 game loop written to prioritize updates and fill in with extra renders.",
+  "main": "index.js",
+  "scripts": {
+    "test": " ./node_modules/.bin/mocha --compilers js:babel-core/register --reporter=nyan"
+  },
+  "keywords": [
+    "engine",
+    "raf",
+    "loop",
+    "update",
+    "render",
+    "game"
+  ],
+  "author": "Jacob A Smith",
+  "license": "MIT",
+  "dependencies": {
+    "microtime-x": "^1.0.0",
+    "raf": "^3.3.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.18.2",
+    "babel-preset-es2015": "^6.18.0",
+    "mocha": "^3.2.0",
+    "chai": "^3.5.0"
+  }
+}
