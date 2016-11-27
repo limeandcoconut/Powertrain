@@ -1,6 +1,6 @@
 {
   "name": "powertrain",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A lightweight es6 game loop written to prioritize updates and fill in with extra renders.",
   "main": "index.js",
   "scripts": {
