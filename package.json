@@ -23,7 +23,7 @@
   "author": "Jacob A Smith",
   "license": "MIT",
   "dependencies": {
-    "microtime-x": "^1.0.0",
+    "@limeandcoconut/microtime-x": "^1.0.0",
     "raf": "^3.3.0"
   },
   "devDependencies": {

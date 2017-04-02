@@ -1,6 +1,6 @@
-import Powertrain from './source/index.js';
+import Powertrain from './source/index.js'
 
-var expect = require('chai').expect;
+var expect = require('chai').expect
 
 /* eslint-disable no-undef */
 describe('Powertrain class', function() {
@@ -10,11 +10,11 @@ describe('Powertrain class', function() {
         it('should construct properly without config', function() {
             expect(() => {
                 /* eslint-disable no-new */
-                new Powertrain();
-            }).to.not.throw(TypeError);
-            let instanceTest = new Powertrain();
-            expect(typeof instanceTest).to.equal('object');
-        });
+                new Powertrain()
+            }).to.not.throw(TypeError)
+            let instanceTest = new Powertrain()
+            expect(typeof instanceTest).to.equal('object')
+        })
 
         it('should throw if constructed with incorrect core values', function() {
             let core = {
@@ -24,100 +24,104 @@ describe('Powertrain class', function() {
                 },
                 render: () => {
                 },
-            };
+            }
 
-            core.playSpeed = '1';
+            core.playSpeed = '1'
             expect(() => {
                 /* eslint-disable no-new */
-                new Powertrain(core);
-            }).to.throw(TypeError);
-            core.playSpeed = 1;
+                new Powertrain(core)
+            }).to.throw(TypeError)
+            core.playSpeed = 1
 
-            core.update = 'function';
+            core.update = 'function'
             expect(() => {
                 /* eslint-disable no-new */
-                new Powertrain(core);
-            }).to.throw(TypeError);
-            core.update = () => {};
+                new Powertrain(core)
+            }).to.throw(TypeError)
+            core.update = () => {}
 
-            core.fps = '60';
+            core.fps = '60'
             expect(() => {
                 /* eslint-disable no-new */
-                new Powertrain(core);
-            }).to.throw(TypeError);
+                new Powertrain(core)
+            }).to.throw(TypeError)
 
-            core.fps = 0;
+            core.fps = 0
             expect(() => {
                 /* eslint-disable no-new */
-                new Powertrain(core);
-            }).to.throw(RangeError);
-            core.fps = 60;
+                new Powertrain(core)
+            }).to.throw(RangeError)
+            core.fps = 60
 
-            core.render = 'function';
+            core.render = 'function'
             expect(() => {
                 /* eslint-disable no-new */
-                new Powertrain(core);
-            }).to.throw(TypeError);
-        });
+                new Powertrain(core)
+            }).to.throw(TypeError)
+        })
 
         describe('On the subject of running the engine, it ', function() {
-            let engine;
-            let updates = 0;
-            let lastUpdates;
+            let engine
+            let updates = 0
+            let lastUpdates
 
             before(function() {
                 engine = new Powertrain({
                     playSpeed: 1,
                     fps: 60,
                     update: () => {
-                        updates++;
+                        updates++
                     },
                     render: () => {
-                        if (console) {
-                            if (updates % 5 === 0) {
-                                // console.log('.');
-                                // console.log(updates, engine.frameCount, engine.fps);
-                            }
-                        }
                     },
-                });
-            });
+                })
+            })
 
-            it('should reflect core object after start', function() {
+            it('should reflect core object', function() {
                 let testPowertrain = new Powertrain({
                     playSpeed: 1,
                     fps: 60,
                     update: () => {
-                        updates++;
+                        updates++
                     },
                     render: () => {
                     },
-                });
-                testPowertrain.start();
-                testPowertrain.stop();
-                expect(testPowertrain.playSpeed).to.equal(1);
-                expect(typeof testPowertrain.update).to.equal('function');
-                expect(typeof testPowertrain.render).to.equal('function');
-            });
+                })
+                expect(testPowertrain.playSpeed).to.equal(1)
+                expect(typeof testPowertrain.update).to.equal('function')
+                expect(typeof testPowertrain.render).to.equal('function')
+            })
 
             it('should update', function(done) {
                 setTimeout(() => {
-                    engine.stop();
-                    expect(updates > 0).to.equal(true);
-                    done();
-                    lastUpdates = updates;
-                }, 1100);
+                    engine.stop()
+                    expect(updates > 0).to.equal(true)
+                    lastUpdates = updates
+                    done()
+                }, 1100)
 
-                engine.start();
-            });
+                engine.start()
+            })
+
+            it('should keep proper fps', function(done) {
+                setTimeout(() => {
+                    engine.stop()
+                    expect(updates).to.equal(61)
+                    lastUpdates = updates
+                    done()
+                }, 1000)
+
+                updates = 0
+                engine.start()
+            })
 
             it('should stop', function(done) {
                 setTimeout(() => {
-                    expect(lastUpdates).to.equal(updates);
-                    done();
-                }, 200);
-            });
+                    expect(lastUpdates).to.equal(updates)
+                    done()
+                }, 200)
+            })
 
-        });
-    });
-});
+        })
+    })
+})

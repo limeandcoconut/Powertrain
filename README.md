@@ -2,6 +2,7 @@
 
 A lightweight es6 game loop written to prioritize updates and fill in with extra renders.
 Updates will be called as accurately as possible while render operations will happen as often as possible. If, for some reason, lag has caused more than enough time more than one update to occur they will be called sequentially until caught up and a render operation will be placed at then end of the operations.
+Testing and dev are done with babel in es6.
 
 ```js
 let Engine = require('powertrain');
@@ -24,7 +25,7 @@ engine.stop();
 
 #### `engine = new Engine(config)`
 
-Creates a new instance of class Engine with optional dependencies set by config object. The update function will be as accurately as possible. The render function will be called as often as possible so long as there updates are happening on schedule.
+Creates a new instance of class Engine with optional dependencies set by config object. The update function will called be as accurately as possible. The render function will be called as often as possible so long as there updates are happening on schedule.
 Playspeed is a convenient way to scale timing.
 FPS controls base timing.
 
@@ -35,6 +36,9 @@ Starts the render loop.
 #### `engine.stop()`
 
 Stops the render loop.
+
+## TODO:
+- [x] Add test for correct number of ticks per second
 
 ## License
 
