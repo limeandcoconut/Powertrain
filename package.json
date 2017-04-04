@@ -20,7 +20,11 @@
     "render",
     "game"
   ],
-  "author": "Jacob A Smith",
+  "author": {
+    "name": "Jacob Smith",
+    "email": "messagethesmith@gmail.com",
+    "url": "https://github.com/limeandcoconut"
+  },
   "license": "MIT",
   "dependencies": {
     "@limeandcoconut/microtime-x": "^1.0.0",
