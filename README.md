@@ -37,12 +37,14 @@ Starts the render loop.
 
 Stops the render loop.
 
-#### Feedback 🗒
+## Feedback ✉️
 It is greatly appreciated! 🎉
 Please hit me up, I'd love to hear what you have to say!
 
 [messagethesmith@gmail.com](messagethesmith@gmail.com)
+
 [https://github.com/limeandcoconut](https://github.com/limeandcoconut)
+
 [@limeandcoconut](https://twitter.com/limeandcoconut)
 
 Cheers!
