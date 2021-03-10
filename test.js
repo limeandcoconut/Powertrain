@@ -1,72 +1,24 @@
-import Powertrain from './src/index.js'
+import Powertrain from './dist/index.js'
 
-var expect = require('chai').expect
+const {expect} = require('chai')
 
-/* eslint-disable no-undef */
-describe('Powertrain class', function() {
+describe('Powertrain class', () => {
 
-    describe('Creating Class', function() {
+    describe('Creating Class', () => {
 
-        it('should construct properly without config', function() {
+        it('should construct properly without options', () => {
             expect(() => {
-                /* eslint-disable no-new */
+                // eslint-disable-next-line no-new
                 new Powertrain()
             }).to.not.throw(TypeError)
-            let instanceTest = new Powertrain()
-            expect(typeof instanceTest).to.equal('object')
+            expect(typeof new Powertrain()).to.equal('object')
         })
 
-        it('should throw if constructed with incorrect core values', function() {
-            let core = {
-                playSpeed: 1,
-                fps: 60,
-                update: () => {
-                },
-                render: () => {
-                },
-            }
 
-            core.playSpeed = '1'
-            expect(() => {
-                /* eslint-disable no-new */
-                new Powertrain(core)
-            }).to.throw(TypeError)
-            core.playSpeed = 1
+        describe('On the subject of running the engine, it ', () => {
 
-            core.update = 'function'
-            expect(() => {
-                /* eslint-disable no-new */
-                new Powertrain(core)
-            }).to.throw(TypeError)
-            core.update = () => {}
-
-            core.fps = '60'
-            expect(() => {
-                /* eslint-disable no-new */
-                new Powertrain(core)
-            }).to.throw(TypeError)
-
-            core.fps = 0
-            expect(() => {
-                /* eslint-disable no-new */
-                new Powertrain(core)
-            }).to.throw(RangeError)
-            core.fps = 60
-
-            core.render = 'function'
-            expect(() => {
-                /* eslint-disable no-new */
-                new Powertrain(core)
-            }).to.throw(TypeError)
-        })
-
-        describe('On the subject of running the engine, it ', function() {
-            let engine
-            let updates = 0
-            let lastUpdates
-
-            before(function() {
-                engine = new Powertrain({
+            it('should reflect options object', () => {
+                const powertrain = new Powertrain({
                     playSpeed: 1,
                     fps: 60,
                     update: () => {
@@ -75,51 +27,40 @@ describe('Powertrain class', function() {
                     render: () => {
                     },
                 })
+                expect(powertrain.playSpeed).to.equal(1)
+                expect(typeof powertrain.update).to.equal('function')
+                expect(typeof powertrain.render).to.equal('function')
             })
 
-            it('should reflect core object', function() {
-                let testPowertrain = new Powertrain({
-                    playSpeed: 1,
-                    fps: 60,
-                    update: () => {
-                        updates++
-                    },
-                    render: () => {
-                    },
-                })
-                expect(testPowertrain.playSpeed).to.equal(1)
-                expect(typeof testPowertrain.update).to.equal('function')
-                expect(typeof testPowertrain.render).to.equal('function')
-            })
+            it('should update', async () => {
+                let updates = 0
+                const powertrain = new Powertrain({update: () => updates++})
 
-            it('should update', function(done) {
-                setTimeout(() => {
-                    engine.stop()
+                powertrain.start()
+
+                await new Promise(resolve => setTimeout(() => {
+                    powertrain.stop()
                     expect(updates > 0).to.equal(true)
-                    lastUpdates = updates
-                    done()
-                }, 1100)
-
-                engine.start()
+                    resolve()
+                }, 1100))
             })
 
-            it('should keep proper fps', function(done) {
-                setTimeout(() => {
-                    engine.stop()
-                    expect(updates).to.equal(61)
-                    lastUpdates = updates
-                    done()
-                }, 1000)
+            it('should keep proper fps and stop', async () => {
+                let updates = 0
+                const powertrain = new Powertrain({update: () => updates++})
 
-                updates = 0
-                engine.start()
-            })
+                powertrain.start()
 
-            it('should stop', function(done) {
-                setTimeout(() => {
-                    expect(lastUpdates).to.equal(updates)
-                    done()
-                }, 200)
+                await new Promise(resolve => setTimeout(() => {
+                    powertrain.stop()
+                    expect(updates).to.equal(59)
+                    resolve()
+                }, 1000))
+
+                await new Promise(resolve => setTimeout(() => {
+                    expect(updates).to.equal(59)
+                    resolve()
+                }, 100))
             })
 
         })
