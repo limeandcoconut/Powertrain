@@ -1,4 +1,4 @@
-import Powertrain from './source/index.js'
+import Powertrain from './src/index.js'
 
 var expect = require('chai').expect
 

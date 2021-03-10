@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": " ./node_modules/.bin/mocha --compilers js:babel-core/register --reporter=nyan",
-    "build": "babel source --out-dir dist",
+    "build": "babel src --out-dir dist",
     "prepublish": "npm run build"
   },
   "repository": {
