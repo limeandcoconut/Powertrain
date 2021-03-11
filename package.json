@@ -1,12 +1,15 @@
 {
   "name": "powertrain",
-  "version": "1.0.6",
-  "description": "A lightweight es6 game loop written to prioritize updates and fill in with extra renders.",
+  "version": "2.0.0",
+  "description": "A lightweight game loop written to prioritize updates and fill in with extra renders.",
   "main": "dist/index.js",
   "scripts": {
     "test": " ./node_modules/.bin/mocha --require @babel/register --reporter=nyan",
     "build": "babel src --out-dir dist",
     "prepublish": "npm run build"
+  },
+  "engines": {
+    "node": ">=8.5.0"
   },
   "repository": {
     "type": "git",
@@ -22,8 +25,8 @@
   ],
   "author": {
     "name": "Jacob Smith",
-    "email": "messagethesmith@gmail.com",
-    "url": "https://github.com/limeandcoconut"
+    "email": "js@jacobsmith.tech",
+    "url": "https://jacobsmith.tech"
   },
   "license": "MIT",
   "dependencies": {
