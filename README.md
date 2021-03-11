@@ -1,57 +1,61 @@
 # Powertrain
 
-A lightweight es6 game loop written to prioritize updates and fill in with extra renders.
-Updates will be called as accurately as possible while render operations will happen as often as possible. If, for some reason, lag has caused more than enough time more than one update to occur they will be called sequentially until caught up and a render operation will be placed at then end of the operations.
-Testing and dev are done with babel in es6.
+A lightweight game loop written to prioritize updates and fill in with extra renders.
+
+Updates will be called as accurately as possible while render operations will happen as often as possible. If, for some reason, lag has caused more than enough time for more than one update to occur they will be called sequentially until caught up. A render will always happen afterwards upates are done.
+
+Testing and dev are done with babel.
 
 ```js
-let Engine = require('powertrain');
+import Powertrain from 'powertrain'
 
-let config = {
-    playspeed: 1,       // optional, default = 1
-    fps: 60,            // optional, default = 60
-    update: () => {},   // optional, default
-    render: () => {},   // optional, default    
-};
+const engine = new Powertrain({
+  playspeed: 1,     // optional, default = 1
+  fps: 60,          // optional, default = 60
+  update: () => {}, // optional, default = no-op
+  render: () => {}, // optional, default = no-op
+})
 
-let engine = new Engine(config);
-engine.start();
-engine.stop();
+engine.start()
+engine.stop()
 ```
 
 ## Usage
 
 [![NPM](https://nodei.co/npm/powertrain.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/powertrain/)
 
-#### `engine = new Engine(config)`
+### `constructor()`
 
-Creates a new instance of class Engine with optional dependencies set by config object. The update function will called be as accurately as possible. The render function will be called as often as possible so long as there updates are happening on schedule.
-Playspeed is a convenient way to scale timing.
-FPS controls base timing.
+|Name           | Type     | Attributes | Default      | Description                     |
+|---------------|----------|------------|--------------|---------------------------------|
+| obj.playSpeed | number   | <optional> | 1            | A scalar for the speed of play. |
+| obj.fps       | number   | <optional> | 60           | The target fraes per second. This is the number of updates per second that should occur. Not the number of renders. |
+| obj.update    | function | <optional> | ()=>{}       | The function to update game logic. |
+| obj.render    | function | <optional> | (scalar)=>{} | The function to render the game. Accepts a scalar representing progress towards next frame. Can be used for interpolation. |
 
-#### `engine.start()`
+### `start()`
 
-Starts the render loop.
+Starts update loop and sets running flag to true and calls for a requestAnimationFrame (provided by a crossplatform polyfill).
 
-#### `engine.stop()`
+### `stop()`
 
-Stops the render loop.
+Sets running flag to false. This will stop the loop.
+
+## TODO:
 
 ## Feedback ✉️
 It is greatly appreciated! 🎉
-Please hit me up, I'd love to hear what you have to say!
 
-[messagethesmith@gmail.com](messagethesmith@gmail.com)
+[Website 🌐](https://jacobsmith.tech)
+
+[js@jacobsmith.tech](mailto:js@jacobsmith.tech)
 
 [https://github.com/limeandcoconut](https://github.com/limeandcoconut)
 
-[@limeandcoconut](https://twitter.com/limeandcoconut)
+[@limeandcoconut 🐦](https://twitter.com/limeandcoconut)
 
 Cheers!
 
-## TODO:
-- [x] Add test for correct number of ticks per second
-
 ## License
 
-MIT, see [LICENSE.md](http://github.com/limeandcoconut/powertrain/blob/master/LICENSE.md) for details.
+ISC, see [LICENSE.md](/license) for details.
