@@ -9,60 +9,63 @@ import raf from 'raf'
 /**
  * Class for creating a game loop.
  */
-// * @class Powertrain
 export default class {
 
   /**
-     * @constructor
-     * @param   {object}    core    An optional configuration object containing some presets and the update and
-     *                              render functions.
-     * @throws  {TypeError}         Throws if core is provided but not object.
-     * @throws  {TypeError}         Throws if config options are provided but not correct type.
-     * @throws  {RangeError}        Throws if fps option is provided but not greater than zero.
-     */
+   * @param {object}    core    An optional configuration object containing some presets and the update and
+   *                              render functions.
+   */
+  /**
+   * @constructor
+   * @param {number} [obj.playSpeed=1] A scalar for the speed of play.
+   * @param {number} [obj.fps=60] The target fraes per second. This is the
+   *                              number of updates per second that should
+   *                              occur. Not the number of renders.
+   * @param {function} [obj.update=()=>{}] The function to update game logic.
+   * @param {function} [obj.render=()=>{}] The function to render the game.
+   */
   constructor ({
     playSpeed = 1,
     fps = 60,
-    update = (() => {}),
-    render = (() => {}),
+    update = () => {},
+    render = () => {},
   } = {}) {
 
     this.currentTime = 0
+    this.lastTime = 0
+    // Accumulator for passing time since update
     this.dt = 0
-    this.lastTime = performance.now()
+    // Scales the speed of play
     this.playSpeed = playSpeed
+    // The number of miliseconds between updates
     this.frameStep = (playSpeed / fps) * 1_000
     this.update = update
     this.render = render
-
-    this.frameCount = 0
-    this.frameTime = 0
-    this.fps = 0
-
-    this.start = this.start.bind(this)
-    this.stop = this.stop.bind(this)
-    this.tick = this.tick.bind(this)
   }
 
     /**
-     * Starts update loop and sets running flag to true.
+     * Starts update loop and sets running flag to true and calls for a raf.
+     * @function start
      */
     start = () => {
       this.running = true
+      this.lastTime = performance.now()
 
       raf(this.tick)
     }
 
     /**
-    * Sets running flag to false. This will stop the loop
-    */
+     * Sets running flag to false. This will stop the loop.
+     * @function stop
+     */
     stop = () => {
       this.running = false
     }
 
     /**
-    * Calls update method at specified time and fills in with renders when possible. Registers itself for call with
-    * requestAnimationFrame.
+    * Calls update method at specified time and fills in with renders when
+    * possible. Registers itself for call with requestAnimationFrame.
+    * @function tick
     */
     tick = () => {
       if (!this.running) {
@@ -70,30 +73,21 @@ export default class {
       }
 
       this.currentTime = performance.now()
-      this.frameTime += this.currentTime - this.lastTime
-
-      // TODO: Move to wrapper around update function to save exectuion
-      if (this.frameTime >= 1_000) {
-        this.frameTime -= 1_000
-        this.fps = this.frameCount
-        this.frameCount = 0
-      }
-
+      // Add the time since the last frame to the accumulator. Clamp at 1s.
       this.dt += Math.min(1_000, (this.currentTime - this.lastTime))
-      console.log(this.currentTime)
-      console.log(this.lastTime)
-      console.log(this.dt)
-      console.log(this.frameStep)
+      // If it's time for at least one update, run until the time is consumed
       while (this.dt > this.frameStep) {
-        console.log('run')
         this.dt -= this.frameStep
         this.update(this.frameStep)
-        this.frameCount++
       }
 
-      this.render(this.dt / this.playSpeed, this.fps)
+      // Render as often as possible
+      // Pass in the remainder of the accumulator. Can be used to interpolate
+      // between frames if desired.
+      this.render(this.dt / this.frameStep)
       this.lastTime = this.currentTime
 
+      // Request new frame
       raf(this.tick)
     }
 }
