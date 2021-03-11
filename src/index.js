@@ -23,6 +23,9 @@ export default class {
    *                              occur. Not the number of renders.
    * @param {function} [obj.update=()=>{}] The function to update game logic.
    * @param {function} [obj.render=()=>{}] The function to render the game.
+   *                                       Accepts a scalar representing
+   *                                       progress towards next frame. Can be
+   *                                       used for interpolation.
    */
   constructor ({
     playSpeed = 1,
